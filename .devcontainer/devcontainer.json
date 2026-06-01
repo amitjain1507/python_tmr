@@ -1,4 +1,4 @@
 {
     "name": "python_tmr",
-    "image": "mcr.microsoft.com/devcontainers/python:3-3.13-trixie"
+    "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm"
 }
