@@ -6,6 +6,9 @@ project:
     - slides/0a.qmd
     - slides/0b.qmd
     - slides/0c.qmd
+    - slides/1a.qmd
+    - slides/1b.qmd
+    - slides/1c.qmd
 
 website:
   title: "Python Tools for Management Research"

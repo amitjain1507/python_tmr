@@ -1,0 +1,199 @@
+---
+title: "Python Tools for Management Research"
+subtitle: "1a: Polars I"
+author: "Jason T. Kiley"
+format:
+  revealjs:
+    theme: default
+    css: _style.css
+    slide-number: true
+    progress: true
+    controls: true
+    transition: fade
+    preview-links: true
+    highlight-style: github
+    code-copy: true
+    code-line-numbers: true
+    width: 1280
+    height: 720
+execute:
+  echo: true
+---
+
+
+## Polars I
+
+::: {.big-claim}
+
+Let's turn tabular data work into clear, reproducible Python.
+
+:::
+
+This segment is the basic workflow: read data, inspect it, clean it, transform it, and write it back out.
+
+
+## Why dataframes?
+
+Most empirical research data work is tabular data work.
+
+:::: {.type-grid}
+
+::: {.type-card .green-left}
+
+[Rows]{.card-title}
+
+Observations, records, documents, firm-years, estimates, events.
+
+:::
+
+::: {.type-card}
+
+[Columns]{.card-title}
+
+Variables, identifiers, timestamps, measures, labels.
+
+:::
+
+::: {.type-card .gold-left}
+
+[Operations]{.card-title}
+
+Select, filter, transform, aggregate, join, and write.
+
+:::
+
+::::
+
+
+## Pandas and Polars
+
+:::: {.columns}
+
+::: {.column .plain-card width="50%"}
+
+[Pandas]{.card-title}
+
+Older, everywhere, and deeply connected to the Python data ecosystem.
+
+Extremely useful when another package hands us a pandas object, or when pandas reads a format we need.
+
+:::
+
+::: {.column .plain-card .green-left width="50%"}
+
+[Polars]{.card-title}
+
+Newer, fast, expression-oriented, and designed around efficient dataframe operations.
+
+Useful for research pipelines where we care about readable transformations and performance.
+
+:::
+
+::::
+
+[Polars has a short guide for users coming from pandas](https://docs.pola.rs/user-guide/migration/pandas/){target="_blank"}.
+
+
+## How we'll use both
+
+Some research formats are still easiest to read with pandas.
+
+```{python}
+import pandas as pd
+import polars as pl
+
+firmyear_pd = pd.read_stata("../data/firmyear.dta")
+firmyear = pl.from_pandas(firmyear_pd)
+```
+
+Then we do the dataframe work in Polars.
+
+[`pl.from_pandas()`](https://docs.pola.rs/api/python/stable/reference/api/polars.from_pandas.html){target="_blank"} gives us an easy way to use pandas to read data and then work with it in Polars.
+
+
+## Polars philosophy
+
+Polars benefitted from observing the many years of pandas and starting with a clean slate.
+
+:::: {.type-grid}
+
+::: {.type-card .green-left}
+
+[Expressions]{.card-title}
+
+Use `pl.col()` and friends to describe column computations.
+
+:::
+
+::: {.type-card}
+
+[Pipelines]{.card-title}
+
+Chain operations so the data work reads as a sequence of decisions.
+
+:::
+
+::: {.type-card .gold-left}
+
+[Lazy option]{.card-title}
+
+Build a query first, then run it when we ask for the result.
+
+:::
+
+::::
+
+The [Polars expression docs](https://docs.pola.rs/user-guide/expressions/){target="_blank"} are the main reference.
+
+
+## Why the design matters
+
+Polars is designed to stay inside optimized dataframe operations instead of bouncing in and out of slow row-by-row Python work.
+
+The lazy API can see a whole query before running it, which enables query optimization and can reduce unnecessary work. We'll talk about that in `1c`.
+
+The [lazy API docs](https://docs.pola.rs/user-guide/concepts/lazy-api/){target="_blank"} have the deeper version.
+
+
+## What we will practice
+
+:::: {.syntax-grid}
+
+::: {.syntax-card .green-left}
+
+[Read and inspect]{.card-title}
+
+Load a Stata file through pandas, convert to Polars, and inspect shape, columns, schema, and nulls.
+
+:::
+
+::: {.syntax-card}
+
+[Clean and transform]{.card-title}
+
+Cast types, rename columns, select columns, filter rows, and create new variables.
+
+:::
+
+::: {.syntax-card .gold-left}
+
+[Work by group]{.card-title}
+
+Use `.over()` for firm-level calculations inside firm-year data.
+
+:::
+
+::: {.syntax-card .red-left}
+
+[Write outputs]{.card-title}
+
+Write dated CSV and Parquet files that can be reused later.
+
+:::
+
+::::
+
+
+## Hands-on
+
+Open `notebooks/1a_polars.ipynb`.

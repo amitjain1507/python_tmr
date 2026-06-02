@@ -1,0 +1,79 @@
+---
+title: "Python Tools for Management Research"
+subtitle: "1b: Polars II"
+author: "Jason T. Kiley"
+format:
+  revealjs:
+    theme: default
+    css: _style.css
+    slide-number: true
+    progress: true
+    controls: true
+    transition: fade
+    preview-links: true
+    highlight-style: github
+    code-copy: true
+    code-line-numbers: true
+    width: 1280
+    height: 720
+execute:
+  echo: true
+---
+
+
+## Polars II
+
+::: {.big-claim}
+
+"Wow, the data assembly was su much of the analytical work" - Me, as a doc student.
+
+:::
+
+This segment is about combining component datasets into something closer to analysis-ready data.
+
+
+## Today
+
+:::: {.type-grid}
+
+::: {.type-card .green-left}
+
+[Aggregate]{.card-title}
+
+Summarize article-level data to firm-year.
+
+:::
+
+::: {.type-card}
+
+[Join]{.card-title}
+
+Add identifiers, stock prices, and article summaries to firm-year data.
+
+:::
+
+::: {.type-card .gold-left}
+
+[Check]{.card-title}
+
+Inspect row counts, duplicate keys, missing matches, and anti joins.
+
+:::
+
+::::
+
+
+## Polars-native move
+
+When we have record-level data that need to become firm-year data, we often:
+
+1. summarize the component data once;
+1. join the summary onto the base data;
+1. check whether the join behaved.
+
+That is usually clearer, faster, and easier to audit than repeating the same query one row at a time.
+
+
+## Hands-on
+
+Open `notebooks/1b_polars.ipynb`.

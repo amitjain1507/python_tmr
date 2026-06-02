@@ -1,0 +1,98 @@
+---
+title: "Python Tools for Management Research"
+subtitle: "1c: Polars III"
+author: "Jason T. Kiley"
+format:
+  revealjs:
+    theme: default
+    css: _style.css
+    slide-number: true
+    progress: true
+    controls: true
+    transition: fade
+    preview-links: true
+    highlight-style: github
+    code-copy: true
+    code-line-numbers: true
+    width: 1280
+    height: 720
+execute:
+  echo: true
+---
+
+
+## Polars III
+
+::: {.big-claim}
+
+Now we make the same data work easier to read and easier to scale.
+
+:::
+
+This segment helps us scale: lazy queries and functions for readable pipelines.
+
+
+## Why lazy?
+
+Lazy Polars lets us describe the work first and run it later.
+
+That gives Polars room to optimize the query, avoid unnecessary work, and handle larger data nicely on typical research hardware.
+
+The [lazy API usage docs](https://docs.pola.rs/user-guide/lazy/using/){target="_blank"} have the full version.
+
+
+## Why functions?
+
+A huge chained call can work and still be hard to maintain.
+
+::: {.scroll-code}
+
+```python
+firmyear_pipeline = (
+    firmyear_source.with_columns(...)
+    .rename(...)
+    .sort(...)
+    .join(
+        lookup,
+        on="name",
+        how="left",
+        validate="m:1",
+    )
+    .join(
+        pl.scan_csv(DATA_DIR / "stock.csv"),
+        left_on=["id_ticker", "year"],
+        right_on=["tic", "yr"],
+        how="left",
+        validate="1:1",
+    )
+    .join(
+        pl.scan_csv(DATA_DIR / "msft_nyt.csv", try_parse_dates=True)
+        .with_columns(...)
+        .group_by("id_ticker", "year")
+        .agg(...)
+        .sort("id_ticker", "year"),
+        on=["id_ticker", "year"],
+        how="left",
+        validate="1:1",
+    )
+    .with_columns(...)
+)
+```
+
+:::
+
+
+## Why functions?
+
+Functions let us give names to research-data steps:
+
+- read firm-year data;
+- add identifiers;
+- summarize articles;
+- join supporting data;
+- save dated outputs.
+
+
+## Hands-on
+
+Open `notebooks/1c_polars.ipynb`.
