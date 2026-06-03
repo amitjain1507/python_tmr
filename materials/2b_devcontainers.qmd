@@ -1,0 +1,160 @@
+---
+title: "2b Activity: Devcontainers and Codespaces"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+    css: _materials.css
+    include-after-body: _progress.html
+---
+
+
+## Goal
+
+We will add our own devcontainer configuration to the practice repository from `2a`.
+
+Note: The checkboxes on this page are only stored locally in your browser. They are not submitted or synced anywhere.
+
+::: {.guide-progress}
+
+Progress: <span data-progress-count>0</span> / <span data-progress-total>0</span> steps complete.
+
+<button class="reset-progress" type="button" data-progress-reset>Reset progress</button>
+
+:::
+
+
+## Activity
+
+::: {.panel-tabset}
+
+## 1. Open The Practice Repo
+
+Start on GitHub in Chrome or Edge.
+
+1. Open the `python_tmr_practice` repository you created in `2a`.
+1. Click the green **Code** button.
+1. Click the **Codespaces** tab.
+1. Open the existing Codespace, or create a new one if needed.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2b-open-practice-repo">
+  <span>I opened the practice repository in Codespaces.</span>
+</label>
+
+:::
+
+
+## 2. Add Devcontainer Files
+
+In VS Code Web:
+
+1. Open the Command Palette with **F1** or **Shift+Command+P**.
+1. Search for **add dev**.
+1. Choose **Codespaces: Add Dev Container Configuration Files...**.
+1. Choose a Python configuration.
+1. If asked for a Python version, choose Python 3.13 if it is available. Otherwise, accept the default.
+1. Accept the remaining default options.
+
+The exact list of choices can change a little over time. The important thing is that we are adding a `.devcontainer/` folder to the repository.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2b-add-devcontainer">
+  <span>I added devcontainer configuration files from the Command Palette.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2b-see-folder">
+  <span>I found the `.devcontainer/` folder in the Explorer.</span>
+</label>
+
+:::
+
+
+## 3. Inspect the Recipe
+
+Open `.devcontainer/devcontainer.json`.
+
+Look for:
+
+- the name of the configuration;
+- the base image or feature choices;
+- any VS Code extension recommendations;
+- any setup commands.
+
+Do not worry if your file does not match the course repository.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2b-open-devcontainer-json">
+  <span>I opened `.devcontainer/devcontainer.json`.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2b-identify-recipe-piece">
+  <span>I identified at least one thing this file controls.</span>
+</label>
+
+:::
+
+
+## 4. Rebuild if Prompted
+
+VS Code may ask whether you want to rebuild or reopen the Codespace using the new configuration.
+
+Once you're finished editing, you can follow the prompts to rebuild or use the Command Palette to search for and choose **Codespaces: Rebuild Container**.
+
+The key thing to note is that the repository now contains our environment recipe.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2b-rebuild-decision">
+  <span>I can explain why changing the devcontainer may require rebuilding the Codespace.</span>
+</label>
+
+:::
+
+
+## 5. Commit And Push
+
+Use Source Control:
+
+1. Review the `.devcontainer/` changes.
+1. Find the `.devcontainer/` files under **Changes**.
+1. Hover over each file and click the **+** button to stage it.
+1. Confirm that the files moved from **Changes** to **Staged Changes**.
+1. Commit with a message such as:
+
+```text
+Added Python devcontainer configuration.
+```
+
+Push or sync the commit to GitHub.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2b-review-devcontainer-diff">
+  <span>I reviewed the `.devcontainer/` changes.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2b-commit-devcontainer">
+  <span>I committed the `.devcontainer/` configuration.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2b-push-devcontainer">
+  <span>I pushed or synced the commit to GitHub.</span>
+</label>
+
+:::
+
+:::

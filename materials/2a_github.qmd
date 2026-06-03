@@ -1,0 +1,235 @@
+---
+title: "2a Activity: Git and GitHub"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+    css: _materials.css
+    include-after-body: _progress.html
+---
+
+
+## Goal
+
+We will create a brand-new practice repository on GitHub, open it in Codespaces, make one change, commit it, push it, and mark a shared version with a tag.
+
+Note: The checkboxes on this page are only stored locally in your browser. They are not submitted or synced anywhere.
+
+::: {.guide-progress}
+
+Progress: <span data-progress-count>0</span> / <span data-progress-total>0</span> steps complete.
+
+<button class="reset-progress" type="button" data-progress-reset>Reset progress</button>
+
+:::
+
+
+## Activity
+
+::: {.panel-tabset}
+
+## 1. Create A Repository
+
+Start on GitHub in Chrome or Edge.
+
+1. Go to <https://github.com>.
+1. Click **+** in the upper-right corner.
+1. Choose **New repository**.
+1. Name the repository `python_tmr_practice`.
+1. Choose **Private**.
+1. Check **Add a README file**.
+1. Click **Create repository**.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-create-repo">
+  <span>I created a new private GitHub repository with a README.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-not-course-repo">
+  <span>I confirmed this is a new practice repository, not my fork of the course repository.</span>
+</label>
+
+:::
+
+
+## 2. Open it in Codespaces
+
+From the new repository page:
+
+1. Click the green **Code** button.
+1. Click the **Codespaces** tab.
+1. Click **Create codespace on main**.
+1. Wait for VS Code Web to open.
+
+If GitHub asks whether you trust the authors of the files, choose the "Yes" option.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-open-codespace">
+  <span>I opened the new practice repository in Codespaces.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-open-source-control">
+  <span>I opened Source Control in VS Code Web.</span>
+</label>
+
+:::
+
+
+## 3. Make One Change
+
+Open `README.md`.
+
+Add a short research-project note, such as:
+
+```markdown
+## Project Notes
+
+This repository is a practice project for learning Git and GitHub.
+```
+
+Save the file.
+
+Return to Source Control and click the changed file to review the diff.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-edit-readme">
+  <span>I edited and saved `README.md`.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-review-diff">
+  <span>I reviewed the diff in Source Control.</span>
+</label>
+
+:::
+
+Useful terminal reference:
+
+```bash
+git status --short
+git diff
+```
+
+
+## 4. Commit the Change
+
+In Source Control:
+
+1. Find `README.md` under **Changes**.
+1. Hover over `README.md` and click the **+** button to stage it.
+1. Confirm that `README.md` moved from **Changes** to **Staged Changes**.
+1. Write a descriptive commit message in the message box.
+1. Click **Commit**.
+
+If you have multiple changed files, stage only the files that belong together in this commit.
+
+A good message for this practice change might be:
+
+```text
+Added project notes to README.
+```
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-stage-readme">
+  <span>I staged `README.md`.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-write-message">
+  <span>I wrote a descriptive commit message.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-commit-change">
+  <span>I committed the change.</span>
+</label>
+
+:::
+
+Useful terminal reference:
+
+```bash
+git add README.md
+git commit -m "Added project notes to README."
+git log --oneline --max-count=5
+```
+
+
+## 5. Push To GitHub
+
+In VS Code Web, use **Sync Changes** or **Push** (from the **...** menu) in Source Control.
+
+Then return to the repository page on GitHub and confirm the README change appears there.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-push-change">
+  <span>I pushed or synced the commit to GitHub.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-confirm-github">
+  <span>I found the updated README on GitHub.</span>
+</label>
+
+:::
+
+Useful terminal reference:
+
+```bash
+git push
+```
+
+
+## 6. Mark A Shared Version
+
+Now pretend this repository contains a draft you are sending to coauthors.
+
+In Source Control:
+
+1. Find the **Graph** section.
+1. Right-click the most recent commit.
+1. Choose **Create Tag...**.
+1. Name the tag `2026-06-03-to-MP`, or substitute "MP" with the initials of your imaginary coauthor.
+1. Confirm the tag.
+
+Then push the tag to GitHub from the terminal:
+
+```bash
+git push origin 2026-06-03-to-MP
+```
+
+Return to the repository page on GitHub and confirm that the tag appears.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-create-tag">
+  <span>I created a tag from the Source Control graph.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-confirm-tag">
+  <span>I found the tag on GitHub.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2a-understand-tag">
+  <span>I can explain why a tag is useful when sending a draft or submitting a paper.</span>
+</label>
+
+:::
+
+:::

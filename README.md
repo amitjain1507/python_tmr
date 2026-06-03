@@ -31,14 +31,14 @@ segment | topic
 
 ## Materials
 
-The course materials will include slides and notebooks for most segments.
+The course materials include slides and notebooks for most segments.
 The rendered slide site is published with GitHub Pages, and the repository remains the main home for notebooks, data, and project files.
 
-For this initial release, the available materials cover the Python foundations segments:
+Available materials currently cover the Python foundations, Polars, and research project tooling:
 
-- `0a`: Python, notebooks, and the course workflow
-- `0b`: Python basics I
-- `0c`: Python basics II
+- `0a`-`0c`: Python foundations
+- `1a`-`1c`: Polars
+- `2a`-`2c`: Git, devcontainers, Codespaces, and Python project management
 
 
 ## Preparing for the Course
@@ -48,6 +48,7 @@ If you encounter issues, get as far as you can, and we will work through them in
 
 We will use cloud-hosted Codespaces on GitHub.
 This is the easiest option, and the GitHub free account tier has more than enough time for the course.
+Please use Chrome or Edge for Codespaces; Safari has caused broken VS Code Web behavior in live testing.
 
 
 ### GitHub Codespaces

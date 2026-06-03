@@ -1,0 +1,186 @@
+---
+title: "Python Tools for Management Research"
+subtitle: "2b: Devcontainers and Codespaces"
+author: "Jason T. Kiley"
+format:
+  revealjs:
+    theme: default
+    css: _style.css
+    slide-number: true
+    progress: true
+    controls: true
+    transition: fade
+    preview-links: true
+    highlight-style: github
+    code-copy: true
+    code-line-numbers: true
+    width: 1280
+    height: 720
+execute:
+  echo: true
+---
+
+
+## Devcontainers and Codespaces
+
+::: {.big-claim}
+
+Devcontainers let us standardize the operating system and tools for a project, no matter where we run it.
+
+:::
+
+We will put our environment setup into the project repository, instead of leaving it implicit (and often undocumented and not reproducible).
+
+
+# Why environments?
+
+
+## We have already been using one
+
+Our course repository has a `.devcontainer/` folder.
+
+That folder is why our Codespace can open with:
+
+- the right Python version;
+- Quarto available;
+- VS Code extensions installed;
+- project setup commands already run.
+
+
+## The problem
+
+Research projects often work on one computer and then don't quite work or don't work the same on another.
+
+Common causes:
+
+- a different Python version;
+- missing system tools;
+- packages installed in one place but not another;
+- a different operating system or version;
+- different file paths;
+- setup steps that were done manually and never written down.
+
+
+# Devcontainers and Codespaces
+
+
+## What a devcontainer does
+
+A devcontainer is a project-level recipe for a development environment, using a container that provides a consistent Linux-based environment in a lightweight way.
+
+It's like a programmatic way of describing how our computer is set up.
+
+
+## Configuration as code
+
+The devcontainer files go in the repository along with our work.
+We can review, edit, commit, push, and share them like other project files.
+
+That is the main idea: the setup is part of the project, not just something we happened to do on one computer.
+
+
+## Codespaces
+
+Codespaces runs our environment in the cloud and opens it in VS Code Web.
+That's a nice way to work, because it makes no assumptions about our local computer, other than that it has a web browser and internet connection.
+
+It is important to note that we can run devcontainers locally by installing VS Code and Docker Desktop, and that's often the way I work.
+But Codespaces is a great option on a computer with onerous IT permissions or for a course where we can do more fun content by not needing to troubleshoot local installs.
+
+
+
+# The recipe
+
+
+## The main file
+
+The main devcontainer file is usually:
+
+```text
+.devcontainer/devcontainer.json
+```
+
+It can specify the base image, features, VS Code extensions, and setup commands.
+
+Note that we can actually have multiple devcontainer files in a project, though it's beyond our scope for today.
+
+
+## A minimal example
+
+```json
+{
+    "name": "Research Python",
+    "image": "mcr.microsoft.com/devcontainers/python:3.13",
+    "customizations": {
+        "vscode": {
+            "extensions": ["ms-python.python", "ms-toolsai.jupyter"]
+        }
+    }
+}
+```
+
+
+## Common pieces
+
+In `devcontainer.json`, we often see:
+
+- `image`: the base container image;
+- `features`: extra system tools;
+- `customizations`: VS Code settings and extensions;
+- `postCreateCommand`: setup commands after creation.
+
+
+## Devcontainer versus `pyproject.toml`
+
+The devcontainer describes the broader computing environment.
+
+`pyproject.toml` describes the Python project.
+
+We usually need both.
+
+
+# What belongs there?
+
+
+## What belongs in the devcontainer?
+
+Good candidates:
+
+- Python version or base image;
+- devcontainer features such as Quarto;
+- editor extensions that support the workflow;
+- setup commands that should run when the environment is created.
+
+
+## What does not belong there?
+
+Usually not:
+
+- passwords or tokens (definitely not! 😬);
+- project data;
+- generated outputs;
+- one-off personal preferences that coauthors don't need/want.
+
+
+# Workflow
+
+
+## Rebuilds are normal
+
+Changing the devcontainer recipe often means rebuilding or reopening the Codespace.
+
+That can take a few minutes the first time, and it is usually faster for subsequent rebuilds because parts of the prior build are cached.
+
+We're updating the recipe, so we need to actually "bake" it with a rebuild.
+
+
+## Commit the recipe
+
+The devcontainer files and any setup scripts they call should be in Git.
+
+That way, the project carries its environment recipe along with the code, writing, and configuration.
+
+
+## Hands-on
+
+Open the `2b` activity page.

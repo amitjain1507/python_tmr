@@ -1,0 +1,274 @@
+---
+title: "Python Tools for Management Research"
+subtitle: "2a: Git and GitHub"
+author: "Jason T. Kiley"
+format:
+  revealjs:
+    theme: default
+    css: _style.css
+    slide-number: true
+    progress: true
+    controls: true
+    transition: fade
+    preview-links: true
+    highlight-style: github
+    code-copy: true
+    code-line-numbers: true
+    width: 1280
+    height: 720
+execute:
+  echo: true
+---
+
+
+## Git and GitHub
+
+::: {.big-claim}
+
+We benefit greatly from having an authoritative record of what we've changed.
+
+:::
+
+This segment is about using Git and GitHub to keep that record, and to mark the versions we share with other people.
+
+
+# Why Git?
+
+
+## The four-years-later problem
+
+A few years back, someone emailed me to ask why a measure was scaled in an odd-looking way.
+I hadn't touched the paper in maybe four years.
+
+Because it was in a git repository ("repo"), I looked up the commit history and found the change. I had made the scaling change in response to a request from the typesetter to make the journal table fit better.
+
+Knowing exactly when and what we changed, with our own description of why, is a great help when returning to a project in an R&R, for a follow-on project, or when someone asks.
+
+
+## A short history of Git
+
+Git came out of Linux kernel development in 2005, after the BitKeeper CEO pulled the free license in response to a Linux developer writing a tool to interact with BitKeeper to help development.
+
+Linus Torvalds wrote the original Git code in 10 days, and he designed it with practical goals: speed, simple design, distributed work, support for many parallel lines of development, and the ability to handle a very large project efficiently.
+
+The [Pro Git short history](https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git){target="_blank"} has the fuller version.
+
+BitKeeper is no longer in business. 😬🤦‍♂️
+
+
+## What Git is for
+
+:::: {.type-grid}
+
+::: {.type-card .green-left}
+
+[History]{.card-title}
+
+What changed, when it changed, and who changed it.
+
+:::
+
+::: {.type-card}
+
+[Meaning]{.card-title}
+
+Commit messages can explain what the change meant.
+
+:::
+
+::: {.type-card .gold-left}
+
+[Versions]{.card-title}
+
+Tags annotate commits, and are useful to note ones sent to coauthors, conferences, or journals.
+
+:::
+
+::::
+
+
+## What not to put in Git
+
+Git is mostly for source material, and particularly code and writing that are plain text (at least in the underlying representation).
+
+We generally do not want to put large data files or intermediate output in Git.
+Store large data safely separately, and remember that intermediate output can be reproduced with code and raw data.
+
+
+## Differentiating Git and GitHub
+
+Git is the local version-control system.
+It runs on our own computer or in a container like Codespaces.
+
+GitHub is a website that stores the repository, shows its history, and makes it easier to share.
+It has a lot of added tools that make Git nice to work with, too.
+
+In this course, we will mostly use Git through VS Code Web in Codespaces and inspect the remote copy on GitHub.
+
+
+# What goes where?
+
+
+## Best locations in general
+
+:::: {.syntax-grid}
+
+::: {.syntax-card .green-left}
+
+[Git]{.card-title}
+
+Code, notebooks, Quarto source, README files, small durable data, configuration.
+
+:::
+
+::: {.syntax-card .gold-left}
+
+[Elsewhere]{.card-title}
+
+Restricted data, raw data that are too large, generated outputs, and exports.
+
+:::
+
+::::
+
+
+## Git stores the recipe
+
+The best candidates for Git are usually source material:
+
+- code that reads or creates data;
+- source writing in Quarto or Markdown;
+- configuration such as `pyproject.toml`;
+- small research files that document decisions.
+
+
+## Small data can belong in Git
+
+Small data like identifier mappings and data corrections are good examples of data to include in Git. A dropped-observations file is another.
+
+Example columns: `observation_id`, `drop`, `rationale`, `source`, `researcher`, `date_reviewed`.
+
+The analysis can merge that rationale into the original data and filter transparently.
+
+
+## Raw data and generated output
+
+:::: {.syntax-grid}
+
+::: {.syntax-card .green-left}
+
+[Raw data]{.card-title}
+
+Keep in secure synced storage, recreate with code, or ideally both.
+
+:::
+
+::: {.syntax-card .red-left}
+
+[Generated files]{.card-title}
+
+Keep locally or in an output folder when they can be recreated.
+
+:::
+
+::::
+
+
+## Secrets are different
+
+If you commit a password, API key, token, private certificate, or restricted data file, assume it has been exposed.
+
+Deleting it later, or even rewriting history, does not reliably fix the problem because the secret may still be in Git history, remote copies, forks, caches, or clones.
+
+When you notice that, the top priority is making the secret inoperable (e.g., changing a password; revoking and replacing an API key).
+
+
+# Commits and tags
+
+
+## Commit messages carry rationale
+
+Not great:
+
+```text
+update stuff
+```
+
+Much better:
+
+```text
+Scale assets variable per typesetter request.
+```
+
+Much better:
+
+```text
+Integrating SG's 2026-03-15 draft comments.
+```
+
+
+## Semantic commits
+
+A good commit is a coherent set of changes that accomplish something.
+It might revise a measure, add a robustness check, or integrate one set of coauthor comments.
+
+The content and commit message are how we package up the work we do in ways that are meaningful to us.
+
+One really helpful feature is the ability to stage only specific changes in a file, so that we can separate out different changes into different commits, even if we already edited both into the same file.
+
+
+## Tags mark notable commits
+
+A normal workflow is committing as you work.
+
+Then, when you're reasonably sure that you're happy with the changes you've made, push to GitHub.
+When in doubt, push and carry on, because the history isn't supposed to be pretty.
+
+For particular notable commits (i.e. not many of them), we can add tags.
+I like these for versions that I share with coauthors or submit somewhere.
+
+- `2026-04-20-to-JB-for-friendly`
+- `2026-05-25-amj-R1-submission`
+- `2026-01-15-sms-conference-submission`
+
+::: {.notes}
+Until you push, it is possible to remove commits or change them without making a mess of the shared history. This is a useful thing to know later, but not something we need to practice today.
+:::
+
+
+# Workflow
+
+
+## VS Code Web workflow
+
+1. Make a change.
+1. Open Source Control.
+1. Review the diff.
+1. Stage related files.
+1. Write a descriptive commit message.
+1. Commit.
+1. Sync or push.
+
+
+## GitHub workflow
+
+On GitHub, we can:
+
+- confirm the commit appears online;
+- browse the commit history;
+- inspect files at a prior commit;
+- find tags for shared versions.
+
+
+## Collaboration with Git
+
+Most coauthors don't use Git.
+That is fine.
+
+We can use Git to help us organize our work, and integrate coauthor comments and work, even if they don't use Git themselves.
+As I said before, tags are a great feature to help bridge work that happens inside and outside of Git.
+
+
+## Hands-on
+
+Open the `2a` activity page.

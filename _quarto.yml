@@ -9,12 +9,16 @@ project:
     - slides/1a.qmd
     - slides/1b.qmd
     - slides/1c.qmd
+    - slides/2a.qmd
+    - slides/2b.qmd
+    - materials/2a_github.qmd
+    - materials/2b_devcontainers.qmd
 
 website:
   title: "Python Tools for Management Research"
   navbar:
     left:
-      - text: "Slides"
+      - text: "Materials"
         href: index.qmd
 
 format:

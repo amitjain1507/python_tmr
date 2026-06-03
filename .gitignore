@@ -17,6 +17,7 @@ venv/
 .quarto/
 _site/
 *.html
+!materials/_progress.html
 *.pdf
 data/*_polars.csv
 data/*_polars.parquet

@@ -1,0 +1,44 @@
+<script>
+(() => {
+  const storagePrefix = "ptmr-materials-progress:";
+  const checks = [...document.querySelectorAll("[data-progress-id]")];
+  const count = document.querySelector("[data-progress-count]");
+  const total = document.querySelector("[data-progress-total]");
+  const reset = document.querySelector("[data-progress-reset]");
+
+  if (total) {
+    total.textContent = checks.length;
+  }
+
+  function storageKey(box) {
+    return `${storagePrefix}${box.dataset.progressId}`;
+  }
+
+  function updateCount() {
+    if (!count) {
+      return;
+    }
+    count.textContent = checks.filter((box) => box.checked).length;
+  }
+
+  checks.forEach((box) => {
+    box.checked = localStorage.getItem(storageKey(box)) === "true";
+    box.addEventListener("change", () => {
+      localStorage.setItem(storageKey(box), String(box.checked));
+      updateCount();
+    });
+  });
+
+  if (reset) {
+    reset.addEventListener("click", () => {
+      checks.forEach((box) => {
+        box.checked = false;
+        localStorage.removeItem(storageKey(box));
+      });
+      updateCount();
+    });
+  }
+
+  updateCount();
+})();
+</script>
