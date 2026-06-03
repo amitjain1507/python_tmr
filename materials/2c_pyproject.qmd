@@ -1,0 +1,314 @@
+---
+title: "2c Activity: Python Project Management"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+    css: _materials.css
+    include-after-body: _progress.html
+---
+
+
+## Goal
+
+We will add a small `pyproject.toml` file to the same practice repository, list a few packages, install them, pin the versions we care about, and test the environment in a notebook.
+
+Note: The checkboxes on this page are only stored locally in your browser. They are not submitted or synced anywhere.
+
+::: {.guide-progress}
+
+Progress: <span data-progress-count>0</span> / <span data-progress-total>0</span> steps complete.
+
+<button class="reset-progress" type="button" data-progress-reset>Reset progress</button>
+
+:::
+
+
+## Activity
+
+::: {.panel-tabset}
+
+## 1. Open The Practice Repo
+
+Open the `python_tmr_practice` repository in Codespaces.
+
+This should be the same repository you used for `2a` and `2b`.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-open-practice-repo">
+  <span>I opened the practice repository in Codespaces.</span>
+</label>
+
+:::
+
+
+## 2. Create `pyproject.toml`
+
+In the Explorer, create a file named `pyproject.toml` at the top level of the repository.
+
+There are tools that can generate a starter `pyproject.toml`, such as `uv init`, Poetry, and Hatch. For this activity, we will write a very small one ourselves so we can see exactly what each piece does.
+
+Add this starter content:
+
+```toml
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python-tmr-practice"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "ipykernel",
+    "nbformat",
+    "pandas",
+    "plotly",
+    "polars",
+]
+
+[tool.setuptools]
+py-modules = []
+```
+
+Save the file.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-create-pyproject">
+  <span>I created and saved `pyproject.toml`.</span>
+</label>
+
+:::
+
+
+## 3. Read The File
+
+Notice the pieces:
+
+- `name`: the project name;
+- `version`: a project version;
+- `requires-python`: the Python version expectation;
+- `dependencies`: Python packages the project needs;
+- `tool.setuptools`: a small setting that says this practice project does not define an importable Python package.
+
+Right now the dependency list names the packages we want, without requiring exact versions. This file stores the project configuration, but it does not install anything just by existing.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-read-pyproject">
+  <span>I can identify the dependency list in `pyproject.toml`.</span>
+</label>
+
+:::
+
+
+## 4. Install From The Project
+
+Open a terminal and run:
+
+```bash
+python -m pip install -e .
+```
+
+This installs from the project file. Since the dependency list does not specify exact versions yet, `pip` will choose current compatible versions.
+
+Then check that Polars imports:
+
+```bash
+python -c "import polars as pl; print(pl.__version__)"
+```
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-install-from-pyproject">
+  <span>I installed from `pyproject.toml` with `python -m pip install -e .`.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-import-polars">
+  <span>I confirmed that Polars imports.</span>
+</label>
+
+:::
+
+
+## 5. Pin The Versions We Care About
+
+After installing, ask Python what is installed:
+
+```bash
+python -m pip freeze
+```
+
+The terminal will print a long list of installed packages. We are using this as a readout, not saving it to a file.
+
+Find the lines for the packages we intentionally installed:
+
+```text
+ipykernel==...
+nbformat==...
+pandas==...
+plotly==...
+polars==...
+```
+
+Edit the `dependencies` part of `pyproject.toml` so it looks like this, using the version numbers from your terminal:
+
+```toml
+dependencies = [
+    "ipykernel==...",
+    "nbformat==...",
+    "pandas==...",
+    "plotly==...",
+    "polars==...",
+]
+```
+
+Do not copy every package from `pip freeze`. Many of those are packages that our chosen packages need. The installer can solve those later.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-run-pip-freeze">
+  <span>I ran `python -m pip freeze` in the terminal.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-find-package-versions">
+  <span>I copied the package versions I care about into `pyproject.toml`.</span>
+</label>
+
+:::
+
+
+## 6. Reinstall From The Pinned Project
+
+The file now records the packages this project needs and the versions we want to keep using.
+
+Run:
+
+```bash
+python -m pip install -e .
+```
+
+In this Codespace, most of the work may already be done. The important point is that `pyproject.toml` is now a recipe that a future environment can use.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-reinstall-from-pinned-pyproject">
+  <span>I reinstalled from the pinned `pyproject.toml`.</span>
+</label>
+
+:::
+
+
+## 7. Test In A Notebook
+
+Create a new notebook named `environment_check.ipynb`.
+
+If VS Code asks you to choose a kernel, choose the Python environment for this Codespace.
+
+In the first code cell, paste and run:
+
+```python
+import pandas as pd
+import plotly.express as px
+import polars as pl
+
+print("Polars:", pl.__version__)
+print("pandas:", pd.__version__)
+```
+
+In a second code cell, paste and run:
+
+```python
+sample_pl = pl.DataFrame(
+    {
+        "year": [2022, 2023, 2024],
+        "projects": [1, 2, 4],
+    }
+)
+
+sample_pd = pd.DataFrame(
+    {
+        "year": [2022, 2023, 2024],
+        "projects": [1, 2, 4],
+    }
+)
+
+total_projects = sample_pl.select(pl.col("projects").sum()).item()
+print("Total projects:", total_projects)
+
+fig = px.line(
+    sample_pd,
+    x="year",
+    y="projects",
+    markers=True,
+)
+fig.show()
+```
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-create-notebook">
+  <span>I created `environment_check.ipynb`.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-run-import-cell">
+  <span>I ran a notebook cell that imports Polars, pandas, and Plotly.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-run-plot-cell">
+  <span>I ran a notebook cell that creates a small Plotly figure.</span>
+</label>
+
+:::
+
+
+## 8. Commit And Push
+
+Use Source Control:
+
+1. Review the changes.
+1. Find `pyproject.toml` and `environment_check.ipynb` under **Changes**.
+1. Hover over each file and click the **+** button to stage it.
+1. Confirm that the files moved from **Changes** to **Staged Changes**.
+1. Commit with a message such as:
+
+```text
+Added Python project environment files.
+```
+
+Push or sync the commit to GitHub.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-review-environment-diff">
+  <span>I reviewed the environment file changes.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-commit-environment-files">
+  <span>I committed the environment files.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="2c-push-pyproject">
+  <span>I pushed or synced the commit to GitHub.</span>
+</label>
+
+:::
+
+:::

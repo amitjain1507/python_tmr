@@ -19,7 +19,7 @@ segment | topic | materials
 1c | Polars: reusable expressions, lazy queries, and project-scale patterns | [slides](slides/1c.html){target="_blank"}
 2a | Git and GitHub for research projects | [slides](slides/2a.html){target="_blank"} / [activity](materials/2a_github.html){target="_blank"}
 2b | Reproducible computing environments with devcontainers and Codespaces | [slides](slides/2b.html){target="_blank"} / [activity](materials/2b_devcontainers.html){target="_blank"}
-2c | Python project and environment management | coming later
+2c | Python project and environment management | [slides](slides/2c.html){target="_blank"} / [activity](materials/2c_pyproject.html){target="_blank"}
 3a | Quarto documents, citations, and references | coming later
 3b | Quarto manuscripts with code-generated tables, figures, and results | coming later
 3c | Quarto presentations and other research outputs | coming later

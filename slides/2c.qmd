@@ -1,0 +1,113 @@
+---
+title: "Python Tools for Management Research"
+subtitle: "2c: Python Project and Environment Management"
+author: "Jason T. Kiley"
+format:
+  revealjs:
+    theme: default
+    css: _style.css
+    slide-number: true
+    progress: true
+    controls: true
+    transition: fade
+    preview-links: true
+    highlight-style: github
+    code-copy: true
+    code-line-numbers: true
+    width: 1280
+    height: 720
+execute:
+  echo: true
+---
+
+
+## Python project and environment management
+
+::: {.big-claim}
+
+Pinning our package versions is a key part of reproducibility, and better than the alternatives.
+
+:::
+
+We are making the Python part of a project authoritative and reproducible.
+
+
+# The dependency problem
+
+
+## Break or never upgrade?
+
+The problem we're working around is what happens when we don't have separate environments for different projects.
+
+We end up with a choice between never upgrading (so we don't break anything) or breaking things in order to upgrade.
+
+
+## Separate environments
+
+Having separate environments for different projects allows us to have a defined set of packages and versions for each project.
+
+This avoids the break-or-never-upgrade problem, and also makes our projects more reproducible.
+
+
+# `pyproject.toml`
+
+
+## `pyproject.toml`
+
+Modern Python projects commonly use `pyproject.toml`.
+
+It can store:
+
+- project name and metadata;
+- required Python version;
+- package dependencies;
+- tool settings.
+
+
+## A small example
+
+```toml
+[project]
+name = "python-tmr-practice"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "polars",
+]
+```
+
+
+## Why not just `pip install`?
+
+`pip install polars` fixes the current environment.
+
+It does not, by itself, capture what the project needs to work as intended or exactly as originally done.
+
+
+# Capturing versions
+
+
+## Use the terminal as a readout
+
+`pip freeze` shows the packages installed in the current environment.
+We can use it as a terminal readout, then copy the versions we intentionally care about into `pyproject.toml`.
+
+We do not need to save the whole list or copy every package in it.
+Be sparing: let the solver do its job.
+
+
+## The practical workflow
+
+When a project needs a package:
+
+1. add the direct package to `pyproject.toml`;
+1. install from the project and let `pip` solve versions;
+1. use `pip freeze` to see the installed versions;
+1. pin the direct packages you care about;
+1. commit the project file;
+1. reinstall when you need to prove the recipe.
+
+
+## Hands-on
+
+Open the `2c` activity page.
