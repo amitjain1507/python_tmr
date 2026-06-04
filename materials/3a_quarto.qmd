@@ -1,0 +1,385 @@
+---
+title: "3a Activity: Quarto Documents and Citations"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+    link-external-newwindow: true
+    css: _materials.css
+    include-after-body: _progress.html
+execute:
+  enabled: false
+---
+
+
+## Goal
+
+We will add Quarto to the same practice repository, create a small Quarto website project, write a document called "An Example Manuscript," add citations with BibTeX, render HTML and PDF outputs, and commit the source files.
+
+Note: The checkboxes on this page are only stored locally in your browser. They are not submitted or synced anywhere.
+
+::: {.guide-progress}
+
+Progress: <span data-progress-count>0</span> / <span data-progress-total>0</span> steps complete.
+
+<button class="reset-progress" type="button" data-progress-reset>Reset progress</button>
+
+:::
+
+
+## Activity
+
+::: {.panel-tabset}
+
+## 1. Add Quarto
+
+Open the `python_tmr_practice` repository in Codespaces.
+This should be the same repository you used for the Git, devcontainer, and `pyproject.toml` activities.
+
+Open the Command Palette with **F1** or **Shift+Command+P**.
+
+Search for **codespaces** and choose **Codespaces: Add Dev Container Configuration Files...**.
+
+When VS Code asks what to do, choose **Modify your active configuration...**.
+
+Search for **quarto** and choose the Quarto CLI feature:
+
+```text
+ghcr.io/rocker-org/devcontainer-features/quarto-cli
+```
+
+Accept the default or latest version.
+
+The GUI will edit `.devcontainer/devcontainer.json` for you.
+The Quarto CLI feature also asks VS Code to install the Quarto extension inside the devcontainer.
+
+If VS Code asks to rebuild the container, follow that prompt. You can also open the Command Palette and choose **Codespaces: Rebuild Container**.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-open-practice-repo">
+  <span>I opened the practice repository in Codespaces.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-add-quarto-feature">
+  <span>I added the Quarto devcontainer feature.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-quarto-version-works">
+  <span>I rebuilt or reopened the Codespace after adding the feature.</span>
+</label>
+
+:::
+
+
+## 2. Create Project Files
+
+At the top level of the repository, create a file named `_quarto.yml`.
+
+Paste this into the file:
+
+```yaml
+project:
+  type: website
+  output-dir: _site
+  render:
+    - index.qmd
+    - paper.qmd
+
+website:
+  title: "Python TMR Practice"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Paper"
+        href: paper.qmd
+
+bibliography: references.bib
+csl: https://www.zotero.org/styles/academy-of-management-review
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+```
+
+This file says that our repository contains a small Quarto website project.
+It also says that the project will use `references.bib` for citations and an Academy of Management CSL style from the Zotero Style Repository.
+
+Open `.gitignore`.
+
+Add this line if it is not already there:
+
+```text
+_site/
+```
+
+The `_site/` folder will hold rendered website files.
+For now, we want Git to track the source files, not the generated website folder.
+
+At the top level of the repository, create a file named `index.qmd`.
+
+Paste this into the file:
+
+```markdown
+---
+title: "Python TMR Practice"
+---
+
+This site collects research outputs from this practice repository.
+
+## Outputs
+
+- [An Example Manuscript](paper.qmd)
+```
+
+Save the file.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-create-quarto-yml">
+  <span>I created `_quarto.yml`.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-ignore-site">
+  <span>I added `_site/` to `.gitignore` or confirmed that it was already there.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-create-index">
+  <span>I created `index.qmd`.</span>
+</label>
+
+:::
+
+
+## 3. Create `references.bib`
+
+At the top level of the repository, create a file named `references.bib`.
+
+Paste these starter references into the file:
+
+```bibtex
+@article{boivie_2016,
+  author = {Boivie, Steven and Graffin, Scott D. and Oliver, Abbie G. and Withers, Michael C.},
+  title = {Come Aboard! Exploring the Effects of Directorships in the Executive Labor Market},
+  journal = {Academy of Management Journal},
+  volume = {59},
+  number = {5},
+  pages = {1681--1706},
+  year = {2016},
+  doi = {10.5465/amj.2014.0840}
+}
+
+@article{kiley_2023,
+  author = {Kiley, Jason and McKenny, Aaron and Short, Jeremy and Smith, Anne},
+  title = {Call for Papers for a Feature Topic: Having A Way with Words: Innovations and Improvements in Text Analysis Methods},
+  journal = {Organizational Research Methods},
+  volume = {26},
+  number = {4},
+  pages = {752--755},
+  year = {2023},
+  doi = {10.1177/10944281231195704}
+}
+```
+
+Each reference starts with a cite key, such as `boivie_2016`.
+That key is what we will use in the manuscript.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-create-references-bib">
+  <span>I created `references.bib` with the starter references.</span>
+</label>
+
+:::
+
+
+## 4. Create The Manuscript
+
+At the top level of the repository, create a file named `paper.qmd`.
+
+Paste this into the file:
+
+````markdown
+---
+title: "An Example Manuscript"
+author: "Your Name"
+format:
+  html:
+    toc: true
+    code-fold: true
+  typst:
+    toc: true
+    citeproc: true
+  docx: default
+---
+
+## Introduction
+
+This document is a small example of a research manuscript written in Quarto.
+
+We can cite research from our field using cite keys from `references.bib`.
+For example, prior work examines how directorships can matter in the executive labor market [@boivie_2016].
+We can also cite work on text analysis methods in organizational research [@kiley_2023].
+
+## A Small Code Example
+
+Quarto documents can include executable Python code.
+
+```{python}
+import polars as pl
+
+articles = pl.DataFrame(
+    {
+        "publisher": ["AOM", "SAGE"],
+        "starter_references": [1, 1],
+    }
+)
+
+articles
+```
+
+## References
+````
+
+Save the file.
+
+With `paper.qmd` open, look at the bottom of the VS Code window.
+You should see Quarto in the status bar.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-create-manuscript">
+  <span>I created `paper.qmd`.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-see-quarto-status">
+  <span>I saw Quarto in the VS Code status bar.</span>
+</label>
+
+:::
+
+
+## 5. Render The Manuscript
+
+In the terminal, render the manuscript:
+
+```bash
+quarto render paper.qmd
+```
+
+This should create an HTML version, a PDF version, and a Word document.
+The PDF uses Quarto's Typst backend because the document uses `format: typst`.
+The Word document is useful when coauthors need to use track changes.
+
+Then render the whole project:
+
+```bash
+quarto render
+```
+
+Open the rendered website preview when VS Code offers it, or open `_site/index.html` from the file explorer.
+The Word version should be at `_site/paper.docx`.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-render-manuscript">
+  <span>I rendered `paper.qmd`.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-render-project">
+  <span>I rendered the Quarto project.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-open-output">
+  <span>I opened the rendered output and found the reference list and Word file.</span>
+</label>
+
+:::
+
+
+## 6. Add Another Reference
+
+Choose one article to add to `references.bib`:
+
+- [Journal of Management article from SAGE](https://journals.sagepub.com/doi/10.1177/01492063261416425)
+- [Strategic Management Journal article from Wiley](https://sms.onlinelibrary.wiley.com/doi/10.1002/smj.3134)
+- [Academy of Management Review article from AOM](https://journals.aom.org/doi/10.5465/amr.2020.0371)
+
+On the article page, look for the citation tool.
+Choose BibTeX.
+If the page gives you an option like **direct import**, uncheck it so the BibTeX opens in the browser.
+Then use **Command+A** and **Command+C** to copy the BibTeX, and paste it at the bottom of `references.bib`.
+
+Add one sentence to `paper.qmd` that cites the new reference.
+Render the manuscript again.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-add-reference">
+  <span>I added one more BibTeX reference.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-cite-new-reference">
+  <span>I cited the new reference in `paper.qmd`.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-rerender-citations">
+  <span>I re-rendered the manuscript and found the new reference.</span>
+</label>
+
+:::
+
+
+## 7. Commit And Push
+
+Use Source Control:
+
+1. Review the changes.
+1. Stage `.devcontainer/devcontainer.json`, because the GUI edited it when you added the Quarto feature.
+1. Stage the Quarto source files: `_quarto.yml`, `index.qmd`, `paper.qmd`, `references.bib`, and `.gitignore`.
+1. Commit with a message such as:
+
+```text
+Added Quarto manuscript files.
+```
+
+Push or sync the commit to GitHub.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-review-quarto-diff">
+  <span>I reviewed the Quarto project changes.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-commit-quarto-files">
+  <span>I committed the Quarto source files.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3a-push-quarto-files">
+  <span>I pushed or synced the commit to GitHub.</span>
+</label>
+
+:::
+
+:::

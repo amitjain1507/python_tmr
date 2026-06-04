@@ -1,0 +1,350 @@
+---
+title: "3b Activity: Code-Generated Results"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+    link-external-newwindow: true
+    css: _materials.css
+    include-after-body: _progress.html
+execute:
+  enabled: false
+---
+
+
+## Goal
+
+We will add a few analysis tools to the practice project, update `paper.qmd` so it generates results from code, and render the paper again.
+
+Note: The checkboxes on this page are only stored locally in your browser. They are not submitted or synced anywhere.
+
+::: {.guide-progress}
+
+Progress: <span data-progress-count>0</span> / <span data-progress-total>0</span> steps complete.
+
+<button class="reset-progress" type="button" data-progress-reset>Reset progress</button>
+
+:::
+
+
+## Activity
+
+::: {.panel-tabset}
+
+## 1. Add Analysis Packages
+
+Open the `python_tmr_practice` repository in Codespaces.
+
+Open `pyproject.toml` and add three packages to the `dependencies` list:
+
+```toml
+"maketables==0.1.8",
+"matplotlib==3.10.9",
+"statsmodels==0.14.6",
+```
+
+Install from the project:
+
+```bash
+python -m pip install -e .
+```
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3b-add-packages">
+  <span>I added the pinned analysis packages to `pyproject.toml`.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3b-install-packages">
+  <span>I installed from the updated project file.</span>
+</label>
+
+:::
+
+
+## 2. Add Results Boilerplate
+
+Open `paper.qmd`.
+
+Find the section named `## A Small Code Example`.
+
+Replace that section, stopping before `## References`, with this:
+
+<p class="copy-note">Click inside the block to select it, then copy and paste it into `paper.qmd`.</p>
+
+<textarea class="copy-source" readonly spellcheck="false" rows="44">
+## Data and Results
+
+&#96;&#96;&#96;{python}
+#| label: setup-results
+#| echo: false
+#| warning: false
+#| message: false
+
+from random import Random
+
+import maketables as mt
+import matplotlib.pyplot as plt
+import pandas as pd
+import statsmodels.formula.api as smf
+from pandas.plotting import scatter_matrix
+
+
+rng = Random(2026)
+
+rows = []
+for firm_id in range(1, 121):
+    size = rng.gauss(0, 1)
+    attention = rng.gauss(0, 1)
+    slack = 0.35 * size + rng.gauss(0, 0.8)
+    performance = (
+        0.45 * attention
+        + 0.25 * slack
+        + 0.20 * size
+        + rng.gauss(0, 1)
+    )
+
+    rows.append(
+        {
+            "firm_id": firm_id,
+            "attention": attention,
+            "slack": slack,
+            "size": size,
+            "performance": performance,
+        }
+    )
+
+results_data = pd.DataFrame(rows)
+analysis_vars = ["performance", "attention", "slack", "size"]
+variable_labels = {
+    "performance": "Performance",
+    "attention": "Attention",
+    "slack": "Slack",
+    "size": "Size",
+    "Intercept": "Constant",
+}
+
+descriptives_table = mt.DTable(
+    results_data,
+    vars=analysis_vars,
+    stats=["count", "mean", "std", "min", "max"],
+    labels=variable_labels,
+    stats_labels={"count": "N", "std": "SD"},
+)
+
+correlations = results_data[analysis_vars].corr().round(2)
+for row_number in range(len(correlations)):
+    for column_number in range(row_number + 1, len(correlations.columns)):
+        correlations.iat[row_number, column_number] = pd.NA
+correlations = (
+    correlations.astype(object)
+    .where(pd.notna(correlations), "")
+)
+correlations.index = [variable_labels[name] for name in correlations.index]
+correlations.columns = [variable_labels[name] for name in correlations.columns]
+correlation_table = mt.MTable(correlations)
+
+model = smf.ols(
+    "performance ~ attention + slack + size",
+    data=results_data,
+).fit()
+
+regression_table = mt.ETable(
+    [model],
+    labels=variable_labels,
+    model_stats=["N", "r2", "adj_r2"],
+    coef_fmt="b:.3f* \n (se:.3f)",
+    signif_code=[0.001, 0.01, 0.05],
+)
+
+regression_display = regression_table.df.copy()
+regression_display.index = regression_display.index.get_level_values(-1)
+regression_display.columns = regression_display.columns.get_level_values(0)
+regression_display = regression_display.rename_axis("Variable").reset_index()
+
+sample_size = len(results_data)
+attention_coef = model.params["attention"]
+attention_p = model.pvalues["attention"]
+attention_coef_text = f"{attention_coef:.2f}"
+attention_p_text = "&lt; .001" if attention_p &lt; 0.001 else f"{attention_p:.3f}"
+&#96;&#96;&#96;
+
+The sample includes `{python} sample_size` firm-year observations.
+
+### Descriptive Statistics
+
+&#96;&#96;&#96;{python}
+#| label: tbl-descriptives
+#| tbl-cap: "Descriptive statistics for simulated firm-year data."
+#| output: asis
+#| echo: false
+
+print(descriptives_table.df.to_markdown(floatfmt=".2f"))
+&#96;&#96;&#96;
+
+### Correlations
+
+&#96;&#96;&#96;{python}
+#| label: tbl-correlations
+#| tbl-cap: "Correlations among simulated analysis variables."
+#| output: asis
+#| echo: false
+
+print(correlation_table.df.to_markdown())
+&#96;&#96;&#96;
+
+### Scatter Matrix
+
+&#96;&#96;&#96;{python}
+#| label: fig-scatter-matrix
+#| fig-cap: "Scatter matrix for simulated analysis variables."
+#| fig-width: 5.5
+#| fig-height: 5.5
+#| out-width: "85%"
+#| echo: false
+
+axes = scatter_matrix(
+    results_data[analysis_vars],
+    figsize=(5.5, 5.5),
+    diagonal="kde",
+    alpha=0.7,
+)
+fig = axes[0, 0].figure
+fig.tight_layout()
+plt.show()
+&#96;&#96;&#96;
+
+### Regression Results
+
+Attention is associated with performance in the simulated data
+(b = `{python} attention_coef_text`, p = `{python} attention_p_text`).
+
+&#96;&#96;&#96;{python}
+#| label: tbl-regression
+#| tbl-cap: "Regression predicting simulated performance."
+#| output: asis
+#| echo: false
+
+print(regression_display.to_markdown(index=False))
+&#96;&#96;&#96;
+
+Standard errors are in parentheses.
+Significance levels: * p < .05, ** p < .01, *** p < .001.
+</textarea>
+
+Save the file.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3b-replace-code-example">
+  <span>I replaced the small code example with the generated-results section.</span>
+</label>
+
+:::
+
+
+## 3. Render The Paper
+
+In the terminal, render the paper:
+
+```bash
+quarto render paper.qmd
+```
+
+Then render the whole project:
+
+```bash
+quarto render
+```
+
+Open the rendered output and look for:
+
+- the inline sample size;
+- the descriptive statistics table;
+- the lower-triangle correlation table;
+- the scatter matrix;
+- the regression table with model diagnostics;
+- the inline regression coefficient and p value.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3b-render-paper">
+  <span>I rendered `paper.qmd`.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3b-check-generated-results">
+  <span>I found the generated numbers, tables, figure, and regression result.</span>
+</label>
+
+:::
+
+
+## 4. Try One Change
+
+In the hidden setup chunk, find this line:
+
+```python
+0.45 * attention
+```
+
+Change `0.45` to `0.75`.
+
+Render `paper.qmd` again.
+
+Check whether the regression table and inline coefficient changed.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3b-change-coefficient">
+  <span>I changed one data-generating value and rendered the paper again.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3b-see-updated-results">
+  <span>I saw the generated results update.</span>
+</label>
+
+:::
+
+
+## 5. Commit And Push
+
+Use Source Control:
+
+1. Review the changes.
+1. Stage `pyproject.toml` and `paper.qmd`.
+1. Commit with a message such as:
+
+```text
+Added code-generated paper results.
+```
+
+Push or sync the commit to GitHub.
+
+::: {.task-list}
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3b-review-results-diff">
+  <span>I reviewed the generated-results changes.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3b-commit-results">
+  <span>I committed the updated project and paper files.</span>
+</label>
+
+<label class="task-check">
+  <input type="checkbox" data-progress-id="3b-push-results">
+  <span>I pushed or synced the commit to GitHub.</span>
+</label>
+
+:::
+
+:::

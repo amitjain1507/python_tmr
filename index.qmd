@@ -2,9 +2,9 @@
 title: "Python Tools for Management Research"
 ---
 
-This small site will collect rendered course slides and supporting materials as
-they are added. The repository remains the main home for notebooks, data, and
-project files.
+This small site collects rendered course slides and supporting activity
+materials. The repository remains the main home for notebooks, data, and project
+files.
 
 
 ## Materials
@@ -20,6 +20,6 @@ segment | topic | materials
 2a | Git and GitHub for research projects | [slides](slides/2a.html){target="_blank"} / [activity](materials/2a_github.html){target="_blank"}
 2b | Reproducible computing environments with devcontainers and Codespaces | [slides](slides/2b.html){target="_blank"} / [activity](materials/2b_devcontainers.html){target="_blank"}
 2c | Python project and environment management | [slides](slides/2c.html){target="_blank"} / [activity](materials/2c_pyproject.html){target="_blank"}
-3a | Quarto documents, citations, and references | coming later
-3b | Quarto manuscripts with code-generated tables, figures, and results | coming later
-3c | Quarto presentations and other research outputs | coming later
+3a | Quarto documents, citations, and references | [slides](slides/3a.html){target="_blank"} / [activity](materials/3a_quarto.html){target="_blank"}
+3b | Quarto manuscripts with code-generated tables, figures, and results | [slides](slides/3b.html){target="_blank"} / [activity](materials/3b_results.html){target="_blank"}
+3c | Quarto presentations and other research outputs | [slides](slides/3c.html){target="_blank"} / [activity](materials/3c_presentations.html){target="_blank"}

@@ -1,0 +1,201 @@
+---
+title: "Python Tools for Management Research"
+subtitle: "3a: Quarto Documents, Citations, and References"
+author: "Jason T. Kiley"
+format:
+  revealjs:
+    theme: default
+    css: _style.css
+    slide-number: true
+    progress: true
+    controls: true
+    transition: fade
+    preview-links: false
+    link-external-newwindow: true
+    highlight-style: github
+    code-copy: true
+    code-line-numbers: true
+    width: 1280
+    height: 720
+---
+
+
+## From project recipe to research output
+
+::: {.big-claim}
+
+Quarto gives us a consistent interface to a set of powerful tools that can automate tedious and error-prone manual processes.
+
+:::
+
+We will continue to build in our practice repository using Quarto.
+
+
+# Quarto documents
+
+
+## What Quarto does
+
+[Quarto](https://quarto.org/){target="_blank"} gives us one reasonably consistent authoring interface for:
+
+- Markdown prose;
+- executable code chunks;
+- document metadata;
+- citations and references;
+- output formats such as HTML, PDF, Word, and slides.
+
+
+## Where it comes from
+
+Quarto grows out of the same reproducible-document tradition that made R Markdown and R Notebooks popular.
+
+The big expansion is that Quarto is not just an RStudio/R workflow.
+It is a standalone publishing system built around Markdown, executable code, and Pandoc, with first-class support for Python, R, Julia, and JavaScript.
+
+
+## A `.qmd` file
+
+```markdown
+---
+title: "An Example Manuscript"
+author: "Your Name"
+format:
+  html:
+    toc: true
+  typst:
+    toc: true
+---
+
+## Introduction
+
+This is a cited sentence [@kiley_2023].
+```
+
+
+# One interface, many outputs
+
+
+## The repository can hold the whole story
+
+```text
+python_tmr_practice/
+  .devcontainer/
+  pyproject.toml
+  _quarto.yml
+  index.qmd
+  paper.qmd
+  references.bib
+```
+
+The source files are the things we edit and commit.
+
+
+## Easy things easy. Hard things possible.
+
+The same basic workflow can make a simple HTML page, a PDF, a Word document, a website, or slides.
+We do not have to learn a totally separate toolchain for every output.
+
+Quarto sits on top of powerful tools such as Pandoc, Typst, and revealjs.
+
+We can almost always stay in the friendly layer.
+But, if we have highly-specific needs, we can customize the underlying tools directly, and Quarto has some features to make that easier.
+
+
+## What we commit
+
+Commit:
+
+- `.qmd` source files;
+- `_quarto.yml`;
+- `references.bib`;
+- project and environment files.
+
+Usually do not commit:
+
+- `_site/`;
+- generated PDFs or HTML files unless there is a specific sharing reason.
+
+
+# Citations and references
+
+
+## BibTeX files
+
+A `.bib` file stores reference metadata in plain text.
+
+```bibtex
+@article{kiley_2023,
+  author = {Kiley, Jason and McKenny, Aaron and Short, Jeremy and Smith, Anne},
+  title = {Call for Papers for a Feature Topic: Having A Way with Words},
+  journal = {Organizational Research Methods},
+  year = {2023},
+  doi = {10.1177/10944281231195704}
+}
+```
+
+
+## Cite keys
+
+The label after the opening brace is the cite key.
+
+```markdown
+Text analysis methods keep evolving in organizational research [@kiley_2023].
+```
+
+Quarto uses the cite key to find the reference and build the reference list.
+
+
+## CSL files
+
+CSL files control how citations and references are formatted.
+
+```yaml
+bibliography: references.bib
+csl: https://www.zotero.org/styles/academy-of-management-review
+```
+
+The same source references can be rendered in different journal styles, just by changing the CSL link.
+(But, don't forget to rework to another journal's norms.)
+
+
+## Getting BibTeX
+
+Common routes:
+
+- use the publisher's website citation tool and choose BibTeX;
+- uncheck direct import when that gives a clean browser page;
+- use DOI metadata from the terminal when it is convenient.
+
+```bash
+curl -L -H "Accept: text/x-bibliography; style=bibtex" \
+  "https://doi.org/10.1177/10944281231195704"
+```
+
+
+# PDF output
+
+
+## Typst, not LaTeX
+
+For PDF output, we will use Quarto's [Typst](https://typst.app/){target="_blank"} format.
+
+Typst is fast, modern, and much friendlier to customize later than a traditional LaTeX workflow.
+
+
+## Multiple formats from one source
+
+```yaml
+format:
+  html:
+    toc: true
+  typst:
+    toc: true
+  docx: default
+```
+
+One source document can produce HTML, PDF, and Word.
+
+
+## Hands-on
+
+Open the `3a` activity page.

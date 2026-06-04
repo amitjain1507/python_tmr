@@ -12,9 +12,15 @@ project:
     - slides/2a.qmd
     - slides/2b.qmd
     - slides/2c.qmd
+    - slides/3a.qmd
+    - slides/3b.qmd
+    - slides/3c.qmd
     - materials/2a_github.qmd
     - materials/2b_devcontainers.qmd
     - materials/2c_pyproject.qmd
+    - materials/3a_quarto.qmd
+    - materials/3b_results.qmd
+    - materials/3c_presentations.qmd
 
 website:
   title: "Python Tools for Management Research"

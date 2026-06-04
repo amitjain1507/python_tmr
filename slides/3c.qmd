@@ -1,0 +1,250 @@
+---
+title: "Python Tools for Management Research"
+subtitle: "3c: Presentations and Other Research Outputs"
+author: "Jason T. Kiley"
+format:
+  revealjs:
+    theme: default
+    css: _style.css
+    slide-number: true
+    progress: true
+    controls: true
+    transition: fade
+    preview-links: false
+    link-external-newwindow: true
+    highlight-style: github
+    code-copy: true
+    code-line-numbers: true
+    width: 1280
+    height: 720
+execute:
+  enabled: false
+---
+
+
+## From manuscript to research outputs
+
+::: {.big-claim}
+
+Quarto is one tool for many kinds of output we use in research, teaching, and life in general.
+
+:::
+
+We can get a lot of mileage from a relatively small set of tools.
+
+
+# More outputs
+
+
+## More mileage from the same skillset
+
+Quarto is versatile.
+
+:::: {.type-grid}
+
+::: {.type-card}
+[Manuscripts]{.card-title}
+
+Write prose, citations, tables, figures, and code-generated results in one source file.
+:::
+
+::: {.type-card .green-left}
+[Presentations]{.card-title}
+
+Turn the same project into slides for workshops, conferences, and coauthor meetings.
+:::
+
+::: {.type-card .gold-left}
+[Websites]{.card-title}
+
+Share project pages, documentation, teaching materials, and supplementary resources.
+:::
+
+::::
+
+
+## Why slides from the project?
+
+Presentations have the same copy/paste risks as manuscripts:
+
+- sample sizes drift;
+- figures get updated in one place but not another;
+- regression results change after the slide deck is built;
+- tables and text quietly stop matching.
+
+If the talk draws from the project, we reduce those failure points.
+
+
+## Quarto presentations
+
+[Quarto revealjs](https://quarto.org/docs/presentations/revealjs/){target="_blank"} slides are still `.qmd` files.
+
+```markdown
+---
+title: "A Short Research Talk"
+format: revealjs
+---
+
+## Research question
+
+Why do some firms attract more stakeholder attention?
+```
+
+Headings become slides, and the same Markdown basics still work.
+
+
+## Reuse a result
+
+```markdown
+The sample includes `{python} n` firm-year observations.
+
+Attention is associated with performance
+(b = `{python} round(attention_coef, 2)`,
+p = `{python} f"{attention_p:.3f}"`).
+```
+
+This is the same idea from the paper: values come from the analysis, not from retyping.
+
+
+## Reuse a figure
+
+```python
+axes = scatter_matrix(results_data[analysis_vars])
+fig = axes[0, 0].figure
+fig
+```
+
+A figure can appear in the paper and in the slides without saving and inserting it by hand.
+
+
+## Other outputs
+
+The same project can grow into other useful artifacts:
+
+- a project website;
+- an appendix or supplement;
+- a polished PDF;
+- a Word document for coauthor track changes;
+- a slide deck for a research talk.
+
+Easy things easy. Hard things possible.
+
+
+## Hands-on
+
+Open the `3c` activity page.
+
+
+# Course summary
+
+
+## What we learned: foundations
+
+:::: {.type-grid}
+
+::: {.type-card}
+[Python]{.card-title}
+
+Names, objects, functions, control flow, notebooks, and enough syntax to read and adapt useful code.
+:::
+
+::: {.type-card .green-left}
+[Data]{.card-title}
+
+Polars for reading, inspecting, transforming, joining, aggregating, and saving research datasets.
+:::
+
+::: {.type-card .gold-left}
+[Projects]{.card-title}
+
+Git, GitHub, devcontainers, Codespaces, and `pyproject.toml` for more reproducible research work.
+:::
+
+::::
+
+
+## What we learned: outputs
+
+:::: {.type-grid}
+
+::: {.type-card}
+[Documents]{.card-title}
+
+Quarto manuscripts with citations, references, HTML, PDF, and Word output.
+:::
+
+::: {.type-card .green-left}
+[Results]{.card-title}
+
+Generated sample sizes, tables, figures, regression results, and in-text values.
+:::
+
+::: {.type-card .gold-left}
+[Outputs]{.card-title}
+
+Slides and other research products that can draw from the same project.
+:::
+
+::::
+
+
+## Start small
+
+You do not have to change your whole workflow at once.
+
+Start with one part:
+
+- clean one dataset in Python;
+- generate one table from code;
+- put one paper draft in Quarto;
+- use Git for one project.
+
+Build toward a more integrated workflow over time.
+It took me years to figure out what I thought the best combination was for me, and I did it incrementally.
+
+
+## Tools can meet at the boundaries
+
+Reading and writing data gives you a lot of flexibility.
+
+```text
+spreadsheet -> Python -> CSV or Parquet -> Stata, R, Python, or Quarto
+```
+
+That means you can adopt one tool where it helps and get comfortable before adding more.
+
+
+## Watch for updates
+
+Many of these tools are under active development:
+
+- Python data tools are getting faster and more capable;
+- Quarto keeps adding output features;
+- VS Code and Codespaces keep improving;
+- package ecosystems keep filling practical gaps.
+
+Staying current helps get more mileage from the tools.
+I like to star things on GitHub and occasionally look at that feed.
+
+
+## Join the community
+
+There is now a solid network of computationally minded researchers in our field and adjacent fields.
+
+The AOM Content Analysis PDW is one good outlet, both for presentations and for proposal expert roundtables.
+
+It's nice to talk shop or to simply hang out and not talk shop with like-minded folks.
+
+
+## Keep in touch
+
+::: {.big-claim}
+
+I am always interested to hear what you build, what works, and what gets in your way.
+
+:::
+
+Thank you for spending the week learning these tools together.
+
+
+# Thank you!

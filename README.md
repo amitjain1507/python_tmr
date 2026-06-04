@@ -31,14 +31,15 @@ segment | topic
 
 ## Materials
 
-The course materials include slides and notebooks for most segments.
-The rendered slide site is published with GitHub Pages, and the repository remains the main home for notebooks, data, and project files.
+The course materials include slides, notebooks, and guided activity pages.
+The rendered course site is published with GitHub Pages, and the repository remains the main home for notebooks, data, and project files.
 
-Available materials currently cover the Python foundations, Polars, and research project tooling:
+The available materials cover the full course:
 
 - `0a`-`0c`: Python foundations
 - `1a`-`1c`: Polars
 - `2a`-`2c`: Git, devcontainers, Codespaces, and Python project management
+- `3a`-`3c`: Quarto documents, citations, code-generated results, and presentations
 
 
 ## Preparing for the Course

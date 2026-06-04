@@ -1,0 +1,151 @@
+---
+title: "Python Tools for Management Research"
+subtitle: "3b: Code-Generated Tables, Figures, and Results"
+author: "Jason T. Kiley"
+format:
+  revealjs:
+    theme: default
+    css: _style.css
+    slide-number: true
+    progress: true
+    controls: true
+    transition: fade
+    preview-links: false
+    link-external-newwindow: true
+    highlight-style: github
+    code-copy: true
+    code-line-numbers: true
+    width: 1280
+    height: 720
+execute:
+  enabled: false
+---
+
+
+## From rendered paper to reproducible results
+
+::: {.big-claim}
+
+The next step is making the paper generate its own numbers, tables, figures, and model results.
+
+:::
+
+This is an elegant form of reproducible research: the paper is a recipe for the results.
+
+
+# Generated results
+
+
+## Why generate results?
+
+Copying results by hand creates quiet failure points:
+
+- sample sizes get out of sync;
+- tables lag behind data cleaning changes;
+- figures are regenerated but not replaced;
+- text reports one model while a table reports another.
+
+Reviewers notice this, and you really don't want that at the margin.
+
+
+## What code can write for us
+
+Some useful examples:
+
+:::: {.type-grid}
+
+::: {.type-card}
+[Inline values]{.card-title}
+
+Sample size, coefficient estimates, p values, and other single numbers in the text.
+:::
+
+::: {.type-card .green-left}
+[Tables]{.card-title}
+
+Descriptives, correlations, model summaries, and robustness checks.
+:::
+
+::: {.type-card .gold-left}
+[Figures]{.card-title}
+
+Scatter matrices, distributions, diagnostics, and coefficient plots.
+:::
+
+::::
+
+
+## In-text values
+
+```markdown
+The sample includes `{python} n` observations.
+```
+
+The `n` value in the sentence comes from Python.
+If the data changes and we render again, the sentence updates.
+
+
+## Code can stay out of the way
+
+```python
+#| echo: false
+#| warning: false
+#| message: false
+
+# setup code here
+```
+
+Some code is part of the paper's machinery rather than part of the visible paper.
+These settings turn off code, warnings, and messages in the rendered paper, but the code still runs.
+
+
+# Results workflow
+
+
+## Add the analysis tools
+
+For this segment, the project needs a few more packages:
+
+- [`maketables`](https://py-econometrics.github.io/maketables/){target="_blank"} for descriptive, correlation, and regression tables;
+- [`matplotlib`](https://matplotlib.org/){target="_blank"} for static figures that work well in Word and PDF;
+- [`statsmodels`](https://www.statsmodels.org/){target="_blank"} for regression models and model summaries.
+
+We add them to `pyproject.toml` because they are now part of the project recipe.
+
+
+## Tables
+
+```python
+descriptives
+correlations
+regression_table
+```
+
+The table objects are built in code, then displayed in the paper.
+
+
+## Figures
+
+```python
+axes = scatter_matrix(results_data[analysis_vars])
+fig = axes[0, 0].figure
+fig
+```
+
+Whenever we use some of the more interesting interactive visualizations, we need to make a static version for the paper.
+
+
+## In-text model results
+
+```markdown
+Attention is associated with performance
+(b = `{python} round(attention_coef, 2)`,
+p = `{python} f"{attention_p:.3f}"`).
+```
+
+This is the same fitted model used for the regression table.
+
+
+## Hands-on
+
+Open the `3b` activity page.
